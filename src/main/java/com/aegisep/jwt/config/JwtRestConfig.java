@@ -1,6 +1,7 @@
 package com.aegisep.jwt.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,22 +14,22 @@ public class JwtRestConfig {
 
     @GetMapping("/")
     @PreAuthorize("hasRole('USER')")
-    public String home() {
-        return "welcome home";
+    public ResponseEntity<String> home() {
+        return ResponseEntity.ok("welcome home");
     }
 
-    @GetMapping("/user")
+    @GetMapping(value ="/user", produces = "application/json; charset=UTF-8")
     @PreAuthorize("hasRole('USER')")
-    public String user() {
+    public ResponseEntity<String> user() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username : {}, Roles: {}", authentication.getPrincipal(), authentication.getAuthorities());
-        return "user home";
+        return ResponseEntity.ok("user home");
     }
 
-    @GetMapping("/admin")
+    @GetMapping(value ="/admin", produces = "application/json; charset=UTF-8")
     @PreAuthorize("hasRole('ADMIN')")
-    public String admin() {
-        return "admin home";
+    public ResponseEntity<String> admin() {
+        return ResponseEntity.ok("admin home");
     }
 
 }
