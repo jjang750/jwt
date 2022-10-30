@@ -28,7 +28,7 @@ public class JwToken {
         return Jwts.builder()
                 .setSubject(sub)
                 .addClaims(claims)
-                .setExpiration(Date.from(Instant.now().plus(60, ChronoUnit.MINUTES)))
+                .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.MINUTES)))
                 .signWith(key)
                 .compact();
     }

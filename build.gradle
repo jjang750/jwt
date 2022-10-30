@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'java'
+	id 'war'
 }
 
 group = 'com.aegisep'
@@ -19,6 +20,8 @@ repositories {
 }
 
 dependencies {
+//	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
@@ -28,6 +31,12 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5',
 			'io.jsonwebtoken:jjwt-jackson:0.11.5' // or 'io.jsonwebtoken:jjwt-gson:0.11.5' for gson
+}
+
+bootWar {
+	archiveBaseName = 'jwt'
+	archiveFileName = 'jwt.war'
+	archiveVersion = '0.0.1'
 }
 
 tasks.named('test') {
