@@ -35,10 +35,14 @@ public class LoginFilter extends OncePerRequestFilter {
         var username = request.getHeader("username");
         var password = request.getHeader("password");
 
+        var method = request.getMethod();
+        if(!HttpMethod.POST.matches(method)) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            return;
+        }
         var authenticated = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );
-
         response.setHeader(HttpHeaders.AUTHORIZATION, createJwToken(authenticated));
     }
     /* 로그인 인증 처리 된 사용자 정보를 이용하여 토큰 발행 */
