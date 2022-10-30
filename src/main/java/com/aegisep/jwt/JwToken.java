@@ -19,16 +19,18 @@ import java.util.Map;
 public class JwToken {
 
     private final Key key;
+    private final int expire;
 
-    public JwToken(@Value("${jwt.secret}") String secrat) {
+    public JwToken(@Value("${jwt.secret}") String secrat, @Value("${jwt.expire}") int expire) {
         this.key = Keys.hmacShaKeyFor(secrat.getBytes(StandardCharsets.UTF_8));
+        this.expire = expire;
     }
-
+    /* 토큰 생성 payload 여기에 추가 */
     public String createToken(String sub, Map<String, Object> claims) {
         return Jwts.builder()
                 .setSubject(sub)
                 .addClaims(claims)
-                .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.MINUTES)))
+                .setExpiration(Date.from(Instant.now().plus(expire, ChronoUnit.MINUTES)))
                 .signWith(key)
                 .compact();
     }

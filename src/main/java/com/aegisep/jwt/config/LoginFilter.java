@@ -58,7 +58,7 @@ public class LoginFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         var method = request.getMethod();
         var uri = request.getRequestURI();
-        var isLogin = HttpMethod.POST.matches(method) && uri.startsWith("/login");
-        return !isLogin;
+//        var isLogin = HttpMethod.POST.matches(method) && uri.startsWith("/login");
+        return !uri.startsWith("/login");
     }
 }
