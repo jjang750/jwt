@@ -41,7 +41,7 @@ public class JwtFilter extends OncePerRequestFilter {
             var claims = jwToken.parseClaims(token);
             SecurityContextHolder.getContext().setAuthentication(createAuthentication(claims));
             filterChain.doFilter(request, response);
-        }catch (ExpiredJwtException expiredJwtException) {
+        }catch (ExpiredJwtException | BadCredentialsException expiredJwtException) {
             log.error(expiredJwtException.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().println(expiredJwtException.getMessage());
@@ -59,9 +59,9 @@ public class JwtFilter extends OncePerRequestFilter {
         return Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
                 .filter(auth -> auth.startsWith("Bearer "))
                 .map(auth -> auth.replace("Bearer ", ""))
-                .orElseThrow(() -> new BadCredentialsException("Invalid token"));
+                .orElseThrow(() -> new BadCredentialsException("Bad credentials invalid token"));
     }
-
+    /* 토큰이 없으면 무조건 에러가 나도록 로그인 외의 URL은 이 필터를 거치도록 설정 */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         return request.getRequestURI().startsWith("/login");
