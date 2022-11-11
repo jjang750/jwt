@@ -17,6 +17,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -51,7 +54,15 @@ public class LoginFilter extends OncePerRequestFilter {
         var roles = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-        return jwToken.createToken(user.getUsername(), Map.of("roles", roles));
+        var map = new HashMap<String, Object>();
+        map.put("roles", roles);
+
+        var authentication_table = new ArrayList<String>();
+        authentication_table.add("billdata");
+
+        map.put("authenticated_table", authentication_table);
+
+        return jwToken.createToken(user.getUsername(), map);
 
     }
     /**
