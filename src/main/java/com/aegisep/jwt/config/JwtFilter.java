@@ -3,6 +3,7 @@ package com.aegisep.jwt.config;
 import com.aegisep.jwt.JwToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -41,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
             var claims = jwToken.parseClaims(token);
             SecurityContextHolder.getContext().setAuthentication(createAuthentication(claims));
             filterChain.doFilter(request, response);
-        }catch (ExpiredJwtException | BadCredentialsException expiredJwtException) {
+        }catch (ExpiredJwtException | BadCredentialsException | MalformedJwtException expiredJwtException) {
             log.error(expiredJwtException.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().println(expiredJwtException.getMessage());
