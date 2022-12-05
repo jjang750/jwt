@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.aegisep'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '11'
 
 configurations {
@@ -36,6 +36,12 @@ dependencies {
 bootWar {
 	archiveBaseName = 'jwt'
 	archiveFileName = 'jwt.war'
+	archiveVersion = '0.0.1'
+}
+
+bootJar {
+	archiveBaseName = 'jwt'
+	archiveFileName = 'jwt.jar'
 	archiveVersion = '0.0.1'
 }
 
