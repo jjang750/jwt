@@ -65,6 +65,6 @@ public class JwtFilter extends OncePerRequestFilter {
     /* 토큰이 없으면 무조건 에러가 나도록 로그인 외의 URL은 이 필터를 거치도록 설정 */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getRequestURI().startsWith("/login");
+        return request.getRequestURI().startsWith("/health");
     }
 }

@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 public class JwtRestConfig {
-
-    @GetMapping("/")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> home() {
-        return ResponseEntity.ok("welcome home");
-    }
+//
+//    @GetMapping("/")
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity<String> home() {
+//        return ResponseEntity.ok("welcome home");
+//    }
 
     @GetMapping(value ="/user", produces = "application/json; charset=UTF-8")
     @PreAuthorize("hasRole('USER')")
@@ -30,6 +30,11 @@ public class JwtRestConfig {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> admin() {
         return ResponseEntity.ok("admin home");
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("health home");
     }
 
 }
